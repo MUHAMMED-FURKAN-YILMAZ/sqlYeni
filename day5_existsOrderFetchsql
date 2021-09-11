@@ -1,4 +1,5 @@
 -- IN= EXIST diyebiliriz ayný islevi var .. sadece exist daha hizli
+            --IN hepsini tek tek kontrol ediyor javadaki &  && faarki gibi
 
 
     CREATE TABLE mart_satislar(
@@ -214,7 +215,7 @@
     
     SELECT * FROM (SELECT * FROM kisiler
     ORDER BY maas DESC)--(1) kiþilerde maasa göre ters sýrala
-    WHERE ROWNUM < 4;
+    WHERE ROWNUM <4;
     
     
    -- ORNEK2: MAAÞ'ý en DÜÞÜK 2 kiþinin bilgilerini listeleyen sorguyu yazýnýz.
@@ -226,7 +227,7 @@
     
     SELECT * FROM (SELECT * FROM kisiler
     ORDER BY maas)
-    Where ROWNUM<3;
+    Where ROWNUM <3  ;
     
     
     --ORNEK3: MAAÞ'a göre(azalan) sýralamada 4. 5. ve 6. kiþilerin bilgilerini listeleyen
