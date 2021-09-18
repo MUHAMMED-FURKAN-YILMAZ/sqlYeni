@@ -10,10 +10,15 @@
               
 --CHECK - Bir sutundaki tum verilerin belirlenen ozel bir sarti saglamasini
   --      garanti eder. Soldan tablo silerken kapali olmasi lazim
-       
-       --ORNEK1 NOT NULL
-       --ogrenciler tablosu olusturalim ve id field'ini bos birakilamaz yapalim
-        
+ 
+--DEFAULT - Herhangi bir deðer atanamadýðýnda Baþlangýç deðerinin atanmasýný saðlar.
+
+
+
+--PRIMARY KEY
+/*------------------------------------------------------------------------------       
+ORNEK1: ogrenciler tablosu olusturalim ve id field'ini bos birakilamaz yapalim
+------------------------------------------------------------------------------*/        
         CREATE TABLE ogrenciler(
         id CHAR(4) not null,
         isim VARCHAR(50),
@@ -29,8 +34,9 @@
         SELECT * FROM ogrenciler;
         drop table ogrenciler;
         
-     --ORNEK2 UNIQUE
+     -- UNIQUE
      --tedarikciler olusturalim id unique olsun
+------------------------------------------------------------------------------*/      
      create table tedarikciler
      (
      id CHAR(4) UNIQUE,
@@ -49,8 +55,9 @@ INSERT INTO tedarikciler(id,isim)  VALUES('null','cem');
         
         DROP TABLE tedarikciler;
         
-        
-        --ORNEK3 PRÝMARY key-----
+      
+        -- PRÝMARY key-----
+         
        
        create table personel( 
        id char(5) PRIMARY KEY,
@@ -70,7 +77,7 @@ INSERT INTO tedarikciler(id,isim)  VALUES('null','cem');
 
         
         
- -------   -- ogrenciler3 tablosu olusturalim ve ogrenci_id 'yi PRIMARY KEY yapalim
+-- ogrenciler3 tablosu olusturalim ve ogrenci_id 'yi PRIMARY KEY yapalim
 
     CREATE TABLE ogrenciler3
 ( 
@@ -182,7 +189,8 @@ INSERT INTO ogrenciler5 VALUES (1234,'Oli Can',90.6,'15-05-2019');
     INSERT INTO sehirler2 VALUES ('436','Maras',null);
    
    
-   
+      -- FK ile birleþtirilen tablolardaki tüm verileri çekmek için 
+    -- JOIN Ýþlemi yapmak gerekir. Bu konuyu sonra göreceðiz.
    
    
    

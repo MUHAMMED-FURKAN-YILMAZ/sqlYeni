@@ -1,4 +1,5 @@
 /*==================== SET (küme) OPERATORLERI: UNION, UNION ALL======================
+  
     set=küme diyelim diðer set (sql komutu) ile karýþmasýn
     UNION, UNION ALL, INTERSECT, ve MINUS gibi SET operatorleri yardimiyla
     Çoklu Sorgular birlestirilebilirler.ayný tablodan yada farklý tablodan 
@@ -27,6 +28,7 @@
     SELECT sutun_adi,sutun_adi2, .. FROM tablo_adi1
     UNION
     SELECT sutun_adi1, sutun_adi2, .. FROM tablo_adi2;
+    
     NOT: UNION operatoru SADECE benzersiz degerleri alýr. Benzerli verileri almak
     için UNION ALL kullanýlýr. */
     
@@ -34,6 +36,7 @@
     
     
     drop table personel;
+    select * from personel;
     
     CREATE TABLE personel(
         id NUMBER(9),
@@ -50,19 +53,21 @@
     INSERT INTO personel VALUES(453445611, 'Veli Sahin', 'Ankara', 4500, 'Ford');
     INSERT INTO personel VALUES(123456710, 'Hatice Sahin','Bursa', 4200, 'Honda');
     
-    
+/*------------------------------------------------------------------------------
     --ORNEK1: Maasi 4000’den cok olan isci isimlerini ve 5000 liradan fazla maas
                 --alinan sehirleri ayni sutunda gosteren sorguyu yaziniz.
+------------------------------------------------------------------------------*/
           SELECT  isim AS isim_veya_Sehir, maas  FROM  personel      
           WHERE maas>4000
             UNION   -- union all kullanilirsa tekrarli veriler elenmez, union yazarsak 2 tane olan veli sahin tek yazilir   
           SELECT sehir,maas from personel
           WHERE maas>5000;
     
-    
-    --ORNEK2: Mehmet Ozturk ismindeki kisilerin aldigi maaslari ve Istanbul’daki
- -- personelin maaslarini yüksekten alçaða doðru sýralayarak bir sutunda gosteren
+  /*------------------------------------------------------------------------------   
+    ORNEK2: Mehmet Ozturk ismindeki kisilerin aldigi maaslari ve Istanbul’daki
+  personelin maaslarini yüksekten alçaða doðru sýralayarak bir sutunda gosteren
                             --sorguyu yaziniz.
+------------------------------------------------------------------------------*/                            
     SELECT isim AS isim_sehir, maas from personel
     where isim='Mehmet Ozturk'
     UNION 
@@ -72,7 +77,8 @@
     
     
 --======================== FARKLI TABLOLARDAN BIRLESTIRME ====================
-
+    select * from personel_bilgi;
+    
     CREATE TABLE personel_bilgi
     (
         id NUMBER(9),
@@ -87,9 +93,10 @@
     INSERT INTO personel_bilgi VALUES(453445611, '5524578574', 2);
     INSERT INTO personel_bilgi VALUES(123456710, '5537488585', 1);
     
-    
-    -- Ornek 3: id' si 123456789 olan personelin personel tablosu' ndan sehir ve
-       --maasini, personel_bilgi tablosundan da tel ve cocuk sayisini yazdiriniz 
+  /*------------------------------------------------------------------------------   
+     Ornek 3: id' si 123456789 olan personelin personel tablosu' ndan sehir ve
+       maasini, personel_bilgi tablosundan da tel ve cocuk sayisini yazdiriniz 
+  ------------------------------------------------------------------------------*/
     SELECT id, sehir sehir_tel, maas maas_cocuk_sayisi from personel
     where id=123456789
     UNION
@@ -97,7 +104,8 @@
     where id=123456789;
         
     
-   /* ========================= SET OPERATORLERI: INTERSECT ========================
+/*========================= SET OPERATORLERI: INTERSECT ========================
+
     --ýntersect=> iki kümenin kesiþimini döndürür
     
     INTERSECT operarotu 2 veya daha fazla Sorgu ifadesinin sonuclarini
@@ -111,8 +119,9 @@
     SELECT sutun_adi1, sutun_adi2, .. FROM tablo_adi2;
 
 ==============================================================================*/
+
 /* -----------------------------------------------------------------------------
-  ORNEK5: Personel tablosundan Istanbul veya Ankara’da calisanlarin id’lerini
+  ORNEK4: Personel tablosundan Istanbul veya Ankara’da calisanlarin id’lerini
   sorgulayiniz.
   
   Personel_bilgi tablosundan 2 veya 3 cocugu olanlarin id lerini sorgulayiniz.
@@ -125,8 +134,9 @@
     where cocuk_sayisi IN (2,3);
     
     
-    
-   -- ORNEK6: Honda,Ford ve Tofas’ta calisan ortak isimde personel varsa listeleyin  
+/*------------------------------------------------------------------------------  
+    ORNEK5: Honda,Ford ve Tofas’ta calisan ortak isimde personel varsa listeleyin  
+------------------------------------------------------------------------------*/
     SELECT isim from personel
     where sirket='Honda'
     INTERSECT
@@ -136,11 +146,12 @@
     SELECT isim from personel
     where sirket='Tofas';
     
---************(AND tek satirda arama yapar)tek satirda birkac veri isteniyorsa  
+    --************(AND tek satirda arama yapar)tek satirda birkac veri isteniyorsa  
  --AND ile, farkli satirlardan ortaklik isteniyorsa Intersect***************
     
-    
-  --ORNEK7: Toyota ve Ford sirketlerinde ayni maasi alan personel isimlerini listeleyin  
+/*------------------------------------------------------------------------------ 
+  ORNEK6: Toyota ve Ford sirketlerinde ayni maasi alan personel isimlerini listeleyin  
+------------------------------------------------------------------------------*/
     SELECT isim, maas from personel
     where sirket='Toyota'
     INTERSECT
@@ -162,12 +173,12 @@
     MINUS
     SELECT sutun_adi1, sutun_adi2, .. FROM tablo_adi2;
 ==============================================================================*/
- -----------------------------------------------------------------------------
+
  
- 
-  --ORNEK8: 5000’den az maas alan ve Honda calisani olmayanlarýn bilgilerini
-  --listeleyen bir sorgu yaziniz.
-  
+ /*------------------------------------------------------------------------------
+  ORNEK7: 5000’den az maas alan ve Honda calisani olmayanlarýn bilgilerini
+  listeleyen bir sorgu yaziniz.
+  ------------------------------------------------------------------------------*/
    -- 1. YOL --> INTERSECT
     SELECT isim, maas, sirket from personel
     where maas < 5000
@@ -182,9 +193,10 @@
     SELECT isim, maas, sirket from personel
     where sirket='Honda';
     
-    
-    --ORNEK9: Ismi Mehmet Ozturk olup Izmir’de calismayanlarin isimlerini ve
-            --sehirlerini listeleyen sorguyu yaziniz.
+   /*------------------------------------------------------------------------------ 
+    ORNEK8: Ismi Mehmet Ozturk olup Izmir’de calismayanlarin isimlerini ve
+           sehirlerini listeleyen sorguyu yaziniz.
+    ------------------------------------------------------------------------------*/
     SELECT isim, sehir from personel
     where isim='Mehmet Ozturk'
     MINUS

@@ -31,12 +31,13 @@
     SELECT * FROM mart_satislar;
     SELECT * FROM nisan_satislar;
     
-    
-    --ORNEK1: MART VE NÝSAN aylarýnda ayný URUN_ID ile satýlan ürünlerin
-  --URUN_ID’lerini listeleyen ve ayný zamanda bu ürünleri MART ayýnda alan
-        --MUSTERI_ISIM 'lerini listeleyen bir sorgu yazýnýz.
+/*------------------------------------------------------------------------------    
+    ORNEK1: MART VE NÝSAN aylarýnda ayný URUN_ID ile satýlan ürünlerin
+  URUN_ID’lerini listeleyen ve ayný zamanda bu ürünleri MART ayýnda alan
+        MUSTERI_ISIM 'lerini listeleyen bir sorgu yazýnýz.
+------------------------------------------------------------------------------*/        
     SELECT urun_id, musteri_isim  from mart_satislar 
-    WHERE   EXISTS
+    WHERE  EXISTS
     (SELECT urun_id from nisan_satislar WHERE mart_satislar.urun_id= nisan_satislar.urun_id);
     
     /*      2. cozmumm
@@ -46,17 +47,19 @@
     */
     
     
-    
-    --ORNEK2: Her iki ayda da satýlan ürünlerin URUN_ISIM'lerini ve bu ürünleri
-        --NÝSAN ayýnda satýn alan MUSTERI_ISIM'lerini listeleyen bir sorgu yazýnýz.
+/*------------------------------------------------------------------------------    
+    ORNEK2: Her iki ayda da satýlan ürünlerin URUN_ISIM'lerini ve bu ürünleri
+        NÝSAN ayýnda satýn alan MUSTERI_ISIM'lerini listeleyen bir sorgu yazýnýz.
+------------------------------------------------------------------------------*/          
     SELECT urun_isim,musteri_isim from nisan_satislar n
     WHERE EXISTS (SELECT urun_isim from mart_satislar  m
                 where n.urun_isim=m.urun_isim);
                 
                 
-                
-    --ORNEK3: Her iki ayda da ortak olarak satýlmayan ürünlerin URUN_ISIM'lerini
-      --ve bu ürünleri NÝSAN ayýnda satýn alan MUSTERI_ISIM'lerini listeleyiniz.
+/*------------------------------------------------------------------------------                
+    ORNEK3: Her iki ayda da ortak olarak satýlmayan ürünlerin URUN_ISIM'lerini
+      ve bu ürünleri NÝSAN ayýnda satýn alan MUSTERI_ISIM'lerini listeleyiniz.
+------------------------------------------------------------------------------*/        
       SELECT urun_isim, musteri_isim FROM nisan_satislar n
       WHERE NOT EXISTS (SELECT urun_isim from mart_satislar m
       WHERE m.urun_ýsým=n.urun_isim);
@@ -87,16 +90,24 @@
     SELECT * FROM insanlar;
     DROP TABLE insanlar;
     
-    
-    --ORNEK1: isim'i null olanlari sorgulayiniz
+/*------------------------------------------------------------------------------    
+    ORNEK1: isim'i null olanlari sorgulayiniz
+------------------------------------------------------------------------------*/
     SELECT * FROM insanlar 
     WHERE isim IS NULL;
-    
-    --ORNEK2: isim'i null olmayanlari sorgula
+      
+
+
+/*------------------------------------------------------------------------------    
+    ORNEK2: isim'i null olmayanlari sorgula
+------------------------------------------------------------------------------*/     
     SELECT * FROM insanlar 
     WHERE isim IS NOT NULL;
-    
-    --ORNEK3: ismi null olan kisilerin  isim'lerine NO NAME yazisi atayiniz
+     
+
+/*------------------------------------------------------------------------------
+    ORNEK3: ismi null olan kisilerin  isim'lerine NO NAME yazisi atayiniz
+------------------------------------------------------------------------------*/      
     UPDATE insanlar
     SET isim='NO NAME'
     WHERE isim IS NULL;
@@ -104,11 +115,14 @@
     
     /* COALESCE (birleþmek) ise bir fonksiyondur ve içerisindeki parameterelerden NULL olmayan
     ilk ifadeyi döndürür. Eðer aldýðý tüm ifadeler NULL ise NULL döndürürür.
+    
    *** select COALESCE (sütun1,sütun2,...) from tabloAdý;
+   
     Birden fazla null koþuluna göre deðer atamak istiyorsak COALESCE deyimini kullanabiliriz.
     COALESCE aslýnda case mantýðýnda çalýþýr ve birden fazla kolon arasýnda kontrol saðlayabilirsiniz.
     Bir koþul gerçekleþmez ise diðerine bakar, oda gerçekleþmez ise bir sonraki.
     Deyim bitene kadar
+    
    -- CASE
    WHEN (expression1 IS NOT NULL) THEN expression1
    WHEN (expression2 IS NOT NULL) THEN expression2
@@ -125,7 +139,9 @@
                                                     --567...
                                                     --sakarya
                                                     --999...
-    --ORNEK tablodaki butun null verileri guzel birer cumlecikle degistirin
+/*------------------------------------------------------------------------------                                                    
+    ORNEK tablodaki butun null verileri guzel birer cumlecikle degistirin
+------------------------------------------------------------------------------*/      
     UPDATE insanlar
     SET isim=COALESCE (isim,'NO NAME'),
         adres=COALESCE (adres,'NO ADRES'),
@@ -139,6 +155,7 @@
     ================================ ORDER BY  ===================================
    ORDER BY cümleciði bir SORGU deyimi içerisinde belli bir SUTUN’a göre
    SIRALAMA yapmak için kullanýlýr.
+   
    Syntax
    -------
       ORDER BY sutun_adi ASC   -- ARTAN -->ASC default hali
@@ -168,19 +185,22 @@
     SELECT * FROM kisiler
     ORDER BY adres;
     
-    
-    --ORNEK2: kisiler tablosunu maas'a gore ters siralayarak sorgulayiniz
+/*------------------------------------------------------------------------------    
+    ORNEK2: kisiler tablosunu maas'a gore ters siralayarak sorgulayiniz
+------------------------------------------------------------------------------*/      
     SELECT * FROM kisiler
     ORDER BY maas DESC;
     
-    
-    --ORNEK3: ismi Mine olanlarý, SSN'e göre AZALAN(DESC) sýrada sorgulayýnýz.
+/*------------------------------------------------------------------------------    
+    ORNEK3: ismi Mine olanlarý, SSN'e göre AZALAN(DESC) sýrada sorgulayýnýz.
+------------------------------------------------------------------------------*/      
     SELECT * from kisiler
     where isim='Mine'
     ORDER BY ssn DESC;
     
-    
-    --ORNEK5: soyismi 'i Bulut olanlarý isim sýralý olarak sorgulayýnýz.
+/*------------------------------------------------------------------------------    
+    ORNEK5: soyismi 'i Bulut olanlarý isim sýralý olarak sorgulayýnýz.
+------------------------------------------------------------------------------*/      
     SELECT * FROM kisiler
     WHERE soyýsým='Bulut'
     ORDER BY 2;     --isim yerine sutun sirasi olan 2'yi yazabiliriz
@@ -190,6 +210,7 @@
     /*
     ====================== FETCH NEXT, OFFSET (12C VE ÜSTÜ oracle larda çalýþýr, 
     daha altsanýz çalýþmaz) ======================
+    
    FETCH cümleciði ile listelenecek kayýtlarý sýnýrlandýrabiliriz. Ýstersek
    satýr sayýsýna göre istersek de toplam satýr sayýsýnýn belli bir yüzdesine
    göre sýnýrlandýrma koymak mümkündür. (þu kadar satýrý getir)
@@ -198,17 +219,21 @@
    ---------
    FETCH NEXT satir_sayisi ROWS ONLY;
    FETCH NEXT satir_yuzdesi PERCENT ROWS ONLY;
+   
    OFFSET Cümleciði ile de listenecek olan satýrlardan sýrasýyla istediðimiz
    kadarýný atlayabiliriz.
    Syntax
    ----------
    OFFSET satýr_sayisi ROWS;
+   
    offset atla, fetch getir
 ==============================================================================*/
 
-
---  ORNEK1: MAAÞ'ý en yüksek 3 kiþinin bilgilerini listeleyen sorguyu yazýnýz.
-  -- normalde diger surumde boyle olmali
+/*------------------------------------------------------------------------------
+- ORNEK1: MAAÞ'ý en yüksek 3 kiþinin bilgilerini listeleyen sorguyu yazýnýz.
+ ------------------------------------------------------------------------------*/
+    --normalde diger surumde boyle olmali  
+    
     SELECT * FROM kisiler
     ORDER BY maas DESC
     FETCH NEXT 3 ROWS ONLY; 
@@ -218,8 +243,11 @@
     WHERE ROWNUM <4;
     
     
-   -- ORNEK2: MAAÞ'ý en DÜÞÜK 2 kiþinin bilgilerini listeleyen sorguyu yazýnýz.
-    -- normalde diger surumde boyle olmali
+/*------------------------------------------------------------------------------    
+    ORNEK2: MAAÞ'ý en DÜÞÜK 2 kiþinin bilgilerini listeleyen sorguyu yazýnýz.
+------------------------------------------------------------------------------*/
+     --normalde diger surumde boyle olmali
+      
     SELECT * FROM kisiler
     ORDER BY maas
     fetch next 2 rows only;
@@ -230,9 +258,11 @@
     Where ROWNUM <3  ;
     
     
-    --ORNEK3: MAAÞ'a göre(azalan) sýralamada 4. 5. ve 6. kiþilerin bilgilerini listeleyen
-            --sorguyu yazýnýz.
-    -- normalde diger surumde boyle olmali
+/*------------------------------------------------------------------------------    
+    ORNEK3: MAAÞ'a göre(azalan) sýralamada 4. 5. ve 6. kiþilerin bilgilerini listeleyen
+            sorguyu yazýnýz.
+------------------------------------------------------------------------------*/
+    --normalde diger surumde boyle olmali     
     SELECT * FROM kisiler
     ORDER BY maas DESC
     OFFSET 3 ROWS

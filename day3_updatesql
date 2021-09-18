@@ -1,5 +1,8 @@
 ---------UPDATE - SET-------------------------
 
+  -- Tablonun içeriðini siler..
+   -- DELETE FROM tedarikciler;  -- DROP TABLE tabloyu siler.
+    
 -- SYNTAX
     ----------
     -- UPDATE tablo_adý
@@ -72,9 +75,9 @@
     -- SET sutun1 = yeni_deger1, sutun2 = yeni_deger2,...
     -- WHERE koþul;
     
-    
-    -- ornek1: vergi no'su 101 olan tedarikcinin firma  ismini 'LG' olarak guncelleyin 
-    
+/*------------------------------------------------------------------------------     
+ornek1: vergi no'su 101 olan tedarikcinin firma  ismini 'LG' olarak guncelleyin 
+------------------------------------------------------------------------------*/  
     UPDATE tedarikciler1 
     SET firma_ismi= 'LG'
     WHERE vergi_no= 101;
@@ -82,41 +85,50 @@
     SELECT * FROM tedarikciler1;
     
     
-    
-   --ornek2: tedarikciler tablosundaki tum firma isimlerini Samsung olarak guncelle
+/*------------------------------------------------------------------------------     
+ornek2:tedarikciler tablosundaki tum firma isimlerini 'Samsung' olarak guncelle
+------------------------------------------------------------------------------*/   
    UPDATE tedarikciler1
    SET firma_ismi='SAMSUNG'; -- hepsininkini degistirdigim icin yer belirtmemize gerek yok
     
-    
-   --ornek3:vergi_no’su 102 olan tedarikcinin ismini 'LENOVO' ve irtibat_ismi’ni 'Ali Veli' olarak güncelleyeniz.
+/*------------------------------------------------------------------------------     
+ornek3:vergi_no’su 102 olan tedarikcinin ismini 'LENOVO' ve irtibat_ismi’ni 
+            'Ali Veli' olarak güncelleyeniz.
+------------------------------------------------------------------------------*/   
     UPDATE tedarikciler1
     SET fýrma_ýsmý= 'LENOVO', ýrtýbat_ýsmý= 'Ali Veli'
     WHERE vergý_no=102;
     
-    
-    --ornek4: firma_ismi Samsung olan tedarikcinin irtibat_ismini 'Ayþe Yýlmaz' olarak güncelleyiniz.
+/*------------------------------------------------------------------------------    
+ornek4: firma_ismi Samsung olan tedarikcinin irtibat_ismini 'Ayþe Yýlmaz'
+        olarak güncelleyiniz.
+------------------------------------------------------------------------------*/    
     UPDATE tedarikciler1
     SET irtibat_ismi='Ayse Yilmaz'
     WHERE firma_ismi='SAMSUNG';
     
-    
-    --ornek5:urunler tablosundaki urun_id deðeri 1004'ten büyük olanlarýn urun_id deðerlerini bir arttýrýnýz
+/*------------------------------------------------------------------------------     
+ornek5:urunler tablosundaki urun_id deðeri 1004'ten büyük olanlarýn 
+        urun_id deðerlerini bir arttýrýnýz
+------------------------------------------------------------------------------*/    
     UPDATE urunler1
     SET urun_id= urun_id+1
     WHERE urun_id>1004;
     
     SELECT * FROM urunler1;
     
-    
-    --ornek6: urunler tablosundaki tüm ürünlerin urun_id deðerini ted_vergino
-            --sutun deðeri ile toplayarak güncelleyiniz.
+/*------------------------------------------------------------------------------     
+    ornek6: urunler tablosundaki tüm ürünlerin urun_id deðerini ted_vergino
+            sutun deðeri ile toplayarak güncelleyiniz.
+------------------------------------------------------------------------------*/            
     UPDATE urunler1
     SET urun_id=urun_id+ted_vergýno;
     
-    
-    --ornek7: **tablolari resetle** urunler tablosundan Ali Bak’in aldigi urunun ismini, TEDARÝKCÝ
-             --TABLOSUNDA ÝRTÝBAT_ÝSMÝ 'Adam Eve' OLAN FÝRMANIN ÝSMÝ (FÝRMA_ÝSMÝ)(apple) ile
-             --degistiriniz.
+/*------------------------------------------------------------------------------     
+ornek7: **tablolari resetle** urunler tablosundan Ali Bak’in aldigi urunun ismini, TEDARÝKCÝ
+    TABLOSUNDA ÝRTÝBAT_ÝSMÝ 'Adam Eve' OLAN FÝRMANIN ÝSMÝ (FÝRMA_ÝSMÝ)(apple) ile
+    degistiriniz.
+------------------------------------------------------------------------------*/             
     drop table urunler1;
     drop table tedarikciler1;
     
@@ -129,8 +141,9 @@
             --              WHERE irtibat_ismi='Adam Eve')
             
             
-            
-    --ORNEK8: Laptop satin alan musterilerin ismini, Apple’in irtibat_isim'i ile degistirin
+/*------------------------------------------------------------------------------            
+ORNEK8: Laptop satin alan musterilerin ismini, Apple’in irtibat_isim'i ile degistirin
+------------------------------------------------------------------------------*/    
     UPDATE urunler1
     SET musterý_isim=(SELECT irtibat_isim from tedarikciler1 where firma_ismi= 'Apple')
     WHERE urun_isim='Laptop';

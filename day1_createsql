@@ -37,3 +37,41 @@ INSERT INTO urunler VALUES(200,'kola',6);
 
 SELECT * FROM urunler;
 
+
+
+
+
+--*********** VAR OLAN TABLODAN YENI TABLO OLUSTURMA****----
+
+CREATE TABLE ogrenciler123
+( 
+id char(4), 
+Isim_soyisim varchar2(50), 
+not_ort number(5,2), 
+kayit_tarihi date 
+);
+
+
+INSERT INTO ogrenciler123 VALUES('1001','MEHMET ALA',250.50,'02.02.2001');
+INSERT INTO ogrenciler123 VALUES('1002','AYSE',100.20,'01/01/2000');
+
+
+
+CREATE TABLE ogr
+AS SELECT isim_soyisim, not_ort 
+FROM ogrenciler123;
+
+select * from ogr;
+select * from ogrenciler123;
+
+
+INSERT INTO ogr VALUES('Ali',150.90);
+INSERT INTO ogr VALUES('Veli',190.20);
+
+
+
+
+
+
+
+
